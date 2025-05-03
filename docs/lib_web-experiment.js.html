@@ -1,4 +1,32 @@
-import { StorageHandler } from './storage-handler.js';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/web-experiment.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/web-experiment.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { StorageHandler } from './storage-handler.js';
 import { VariantAssignedEvent } from './variant-assigned-event.js';
 import { WebExperimentVariant } from './web-experiment-variant.js';
 
@@ -19,13 +47,13 @@ import { WebExperimentVariant } from './web-experiment-variant.js';
  *
  * @fires VariantAssignedEvent - A custom event class which contains the details of the variant and experiment
  *
- * @slot - Must contain one or more `<web-experiment-variant>` elements as direct children. One child may optionally have the `selected` attribute for server-side rendering.
+ * @slot - Must contain one or more `&lt;web-experiment-variant>` elements as direct children. One child may optionally have the `selected` attribute for server-side rendering.
  * @example
- * <!-- Use the HTML tags to create your experiement -->
- * <web-experiment experiment-id="my-experiment">
- *   <web-experiment-variant variant-id="variant-a" weight="50">Variant A content</web-experiment-variant>
- *   <web-experiment-variant variant-id="variant-b" weight="50">Variant B content</web-experiment-variant>
- * </web-experiment>
+ * &lt;!-- Use the HTML tags to create your experiement -->
+ * &lt;web-experiment experiment-id="my-experiment">
+ *   &lt;web-experiment-variant variant-id="variant-a" weight="50">Variant A content&lt;/web-experiment-variant>
+ *   &lt;web-experiment-variant variant-id="variant-b" weight="50">Variant B content&lt;/web-experiment-variant>
+ * &lt;/web-experiment>
  */
 export class WebExperiment extends HTMLElement {
 
@@ -193,11 +221,11 @@ export class WebExperiment extends HTMLElement {
    */
   #findVariants() {
     // Query for direct children matching the variant tag name.
-    const variantElements = /** @type {NodeListOf<WebExperimentVariantElement>} */ (
+    const variantElements = /** @type {NodeListOf&lt;WebExperimentVariantElement>} */ (
       this.querySelectorAll(':scope > web-experiment-variant')
     );
     if (variantElements.length === 0) {
-      console.warn(`WebExperiment ${this.experimentId}: No <web-experiment-variant> children found inside`, this);
+      console.warn(`WebExperiment ${this.experimentId}: No &lt;web-experiment-variant> children found inside`, this);
       return null;
     }
     return Array.from(variantElements);
@@ -225,11 +253,11 @@ export class WebExperiment extends HTMLElement {
     }
 
     // Warn if the server accidentally selected more than one
-    if (count > 1 && preSelectedElement) { // Check preSelectedElement to avoid logging if count > 1 but element somehow null
+    if (count > 1 &amp;&amp; preSelectedElement) { // Check preSelectedElement to avoid logging if count > 1 but element somehow null
       console.warn(`WebExperiment ${this.experimentId}: Multiple variants have the 'selected' attribute. Using the first one found ('${preSelectedElement.variantId}').`);
     }
 
-    if (this.debugMode && preSelectedElement) {
+    if (this.debugMode &amp;&amp; preSelectedElement) {
       console.debug(`WebExperiment ${this.experimentId}: Found pre-selected variant: ${preSelectedElement.variantId}`);
     }
 
@@ -296,7 +324,7 @@ export class WebExperiment extends HTMLElement {
         weight: el.weight, // Use getter which handles parsing/defaults
         element: el
       }))
-      .filter(v => v.id && v.weight > 0); // Must have an ID and positive weight
+      .filter(v => v.id &amp;&amp; v.weight > 0); // Must have an ID and positive weight
 
     if (variantsForSelection.length === 0) {
       console.warn(`WebExperiment ${this.experimentId}: No variants available for weighted selection (check variant-id attributes and weights > 0).`);
@@ -324,7 +352,7 @@ export class WebExperiment extends HTMLElement {
   /**
   * Performs the weighted random selection algorithm.
   * Assumes input variants list is already filtered for valid IDs and weight > 0.
-  * @param {Array<{id: string, weight: number, element: WebExperimentVariantElement}>} variants - Eligible variants.
+  * @param {Array&lt;{id: string, weight: number, element: WebExperimentVariantElement}>} variants - Eligible variants.
   * @returns {{id: string, weight: number, element: WebExperimentVariantElement} | null} The chosen variant object or null.
   * @private
   */
@@ -332,14 +360,14 @@ export class WebExperiment extends HTMLElement {
     // Calculate the total weight sum
     const totalWeight = variants.reduce((sum, v) => sum + v.weight, 0);
     // Should not happen due to filter, but safe check
-    if (totalWeight <= 0) { return null; }
+    if (totalWeight &lt;= 0) { return null; }
 
     // Generate a random number between 0 (inclusive) and totalWeight (exclusive)
     let random = Math.random() * totalWeight;
 
     // Iterate through variants, subtracting weight until random number is 'covered'
     for (const variant of variants) {
-      if (random < variant.weight) {
+      if (random &lt; variant.weight) {
         return variant; // This variant is chosen
       }
       random -= variant.weight; // Subtract weight and check next variant
@@ -417,7 +445,30 @@ export class WebExperiment extends HTMLElement {
 
 }
 
-// Define the custom element for <web-experiment> tag usage
+// Define the custom element for &lt;web-experiment> tag usage
 if (!customElements.get('web-experiment')) {
   customElements.define('web-experiment', WebExperiment);
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-@dropbear_web-experiments.html">@dropbear/web-experiments</a></li></ul><h3>Classes</h3><ul><li><a href="StorageHandler.html">StorageHandler</a></li><li><a href="VariantAssignedEvent.html">VariantAssignedEvent</a></li><li><a href="WebExperiment.html">WebExperiment</a></li><li><a href="WebExperimentVariant.html">WebExperimentVariant</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat May 03 2025 22:28:24 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
