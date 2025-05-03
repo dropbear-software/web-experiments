@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Experiment Demo</title>
+  <link href='/style.css' rel='stylesheet'>
+  <script>
+    // Setup the dataLayer for Google Tag Manager
+    window.dataLayer = window.dataLayer || [];
+  </script>
+  <style>
+    /* Rule 1: Hide the experiment until the web-experiment component has loaded */
+    web-experiment:not(:defined) {
+      display: none;
+    }
+
+    /* Rule 2: Hide all variants within an experiment BY DEFAULT */
+    web-experiment>web-experiment-variant {
+      display: none;
+    }
+
+    /* Rule 3: Define how the CHOSEN variant should display
+    This rule applies when the script removes the 'hidden' attribute */
+    web-experiment>web-experiment-variant:not([hidden]) {
+      display: block;
+      /* Or inline, flex, etc. - match your layout needs */
+    }
+
+    /* Rule 4: (Optional fallback/belt-and-suspenders)
+    Explicitly ensure elements with 'hidden' attr are hidden */
+    web-experiment-variant[hidden] {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <script type="module">
+    // Example of wanting to run some custom logic once a variant has been assigned
+    import { VariantAssignedEvent } from './lib/variant-assigned-event.js';
+
+    document.body.addEventListener(VariantAssignedEvent.EVENT_TYPE, (event) => {
+      // Type cast for intellisense/type checking if using TypeScript/JSDoc features
+      /** @type {VariantAssignedEvent} */
+      const variantEvent = event;
+
+      console.log('Experiment Variant Assigned:', {
+        experiment: variantEvent.experimentId,
+        variant: variantEvent.variantId,
+        trigger: variantEvent.trigger,
+      });
+    });
+  </script>
+  <!-- START EXPERIMENT -->
+  <web-experiment experiment-id="headline-test" data-storage='local' gtm>
+    <web-experiment-variant variant-id="short-headline" weight="70">
+      <h1>Short Headline Example</h1>
+    </web-experiment-variant>
+    <web-experiment-variant variant-id="long-headline" weight="30">
+      <h1>This is my Long Headline Example</h1>
+    </web-experiment-variant>
+  </web-experience>
+  <!-- Load the custom element code -->
+  <script type="module" src="main.js"></script>
+  <!-- END EXPERIMENT -->
+</body>
+</html>
