@@ -7,7 +7,7 @@
   "scripts": {
     "demo": "wds --port $PORT"
   },
-  "author": "",
+  "author": "Dropbear Software",
   "license": "MIT",
   "keywords": [
     "web component",
