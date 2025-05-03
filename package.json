@@ -5,16 +5,26 @@
   "module": "main.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "demo": "wds --port $PORT"
   },
   "author": "",
   "license": "MIT",
-  "keywords": ["web component", "ab testing", "experiments", "google analytics", "google tag manager", "custom element"],
+  "keywords": [
+    "web component",
+    "ab testing",
+    "experiments",
+    "google analytics",
+    "google tag manager",
+    "custom element"
+  ],
   "bugs": {
-    "url": "https://github.com/dropbear-software/web-experiments/issues",
+    "url": "https://github.com/dropbear-software/web-experiments/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dropbear-software/web-experiments.git"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.4.6"
   }
 }
