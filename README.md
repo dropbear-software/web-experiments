@@ -1,6 +1,8 @@
-# @dropbear/web-experiment
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Open in Firebase Studio](https://cdn.firebasestudio.dev/btn/open_light_20.svg)](https://studio.firebase.google.com/import?url=https%3A%2F%2Fgithub.com%2Fdropbear-software%web-experiments)
+# Web Experiments
 
-A native web component designed for running lightweight A/B testing.
+Run A/B tests directly in your HTML using framework-agnostic native web components.
 
 ## Description
 
