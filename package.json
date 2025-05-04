@@ -1,5 +1,5 @@
 {
-  "name": "@dropbear/web-experiments",
+  "name": "@dropbear-dev/web-experiments",
   "version": "0.1.0",
   "description": "Implement flexible client-side A/B experiments with weighted variants, persistence, and optional server-side control.",
   "module": "./main.js",
