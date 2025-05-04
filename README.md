@@ -11,7 +11,7 @@ A native web component designed for running lightweight A/B testing.
 You can install the package using npm:
 
 ```bash
-npm install @dropbear/web-experiment
+npm install @dropbear-dev/web-experiments
 ```
 
 ## Usage
@@ -19,7 +19,7 @@ npm install @dropbear/web-experiment
 Include the script in your HTML file:
 
 ```html
-<script type="module" src="node_modules/@dropbear/web-experiment/main.js"></script>
+<script type="module" src="node_modules/@dropbear-dev/web-experiments/main.js"></script>
 ```
 
 Alternatively, consider using a modern approach with Import Maps
@@ -28,12 +28,12 @@ Alternatively, consider using a modern approach with Import Maps
 <script type="importmap">
   {
     "imports": {
-      "@dropbear/web-experiment": "https://ga.jspm.io/npm:@dropbear/web-experiment@0.1.0/main.js"
+      "@dropbear-dev/web-experiments": "https://ga.jspm.io/npm:@dropbear-dev/web-experiments@0.1.0/main.js"
     }
   }
 </script>
 <script type="module">
-  import "@dropbear/web-experiment";
+  import "@dropbear-dev/web-experiments";
 </script>
 ```
 
