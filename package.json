@@ -1,7 +1,7 @@
 {
   "name": "@dropbear/web-experiments",
   "version": "0.1.0",
-  "description": "A native web component designed for running lightweight A/B testing",
+  "description": "Implement flexible client-side A/B experiments with weighted variants, persistence, and optional server-side control.",
   "module": "main.js",
   "type": "module",
   "scripts": {
