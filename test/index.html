@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Experiment Component Demo</title>
+  <script type="module" src="../main.js"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+    .container { background-color: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    h2 { color: #0056b3; }
+    h3 { color: #007bff; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    web-experiment-variant {
+      border: 1px dashed #ccc;
+      padding: 10px;
+      margin-top: 5px;
+      display: block; /* Ensure it takes up space for visibility */
+      background-color: #e9ecef;
+    }
+    web-experiment-variant:not([hidden]) {
+      border-color: #28a745;
+      background-color: #d4edda;
+    }
+    code { background-color: #eee; padding: 2px 5px; border-radius: 3px;}
+    .event-log {
+      background-color: #222;
+      color: #0f0;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Web Experiment Component Demonstrations</h1>
+  <p>Open your browser's developer console to see debug messages and event logs. Clear cookies/localStorage for an experiment to see random selection.</p>
+
+  <!-- Event Logger -->
+  <div class="container">
+    <h2>Global Event Log</h2>
+    <p>Listens for <code>web-experiment:variant-assigned</code> events from all experiments.</p>
+    <div id="globalEventLog" class="event-log"></div>
+  </div>
+
+  <div class="container">
+    <h2>Experiment 1: Basic Weighted Selection (Cookie Storage)</h2>
+    <p><code>data-storage="cookie"</code> (default). Variant A should be chosen ~75% of the time, Variant B ~25%.</p>
+    <web-experiment experiment-id="demo-exp-1" debug-mode>
+      <web-experiment-variant variant-id="A" weight="75">
+        <h3>Variant A (Heavy Weight)</h3>
+        <p>This is content for Variant A of Experiment 1.</p>
+      </web-experiment-variant>
+      <web-experiment-variant variant-id="B" weight="25">
+        <h3>Variant B (Light Weight)</h3>
+        <p>This is content for Variant B of Experiment 1.</p>
+      </web-experiment-variant>
+      <web-experiment-variant variant-id="C" weight="0">
+        <h3>Variant C (Zero Weight)</h3>
+        <p>This variant should never be chosen randomly.</p>
+      </web-experiment-variant>
+    </web-experiment>
+  </div>
+
+  <div class="container">
+    <h2>Experiment 2: Local Storage & Pre-selected Variant</h2>
+    <p>Uses <code>data-storage="local"</code>. Variant "Pre" is initially selected via the <code>selected</code> attribute. If you clear local storage for <code>web_experiment_demo-exp-2-local</code> and remove <code>selected</code> attribute, it will then use weighted selection.</p>
+    <web-experiment experiment-id="demo-exp-2-local" data-storage="local" debug-mode>
+      <web-experiment-variant variant-id="X" weight="1">
+        <h3>Variant X</h3>
+        <p>Content for Variant X (Experiment 2).</p>
+      </web-experiment-variant>
+      <web-experiment-variant variant-id="Pre" weight="1" selected>
+        <h3>Variant Pre (Server-Selected)</h3>
+        <p>This variant is pre-selected. The <code>weight</code> attribute is ignored while <code>selected</code> is present.</p>
+      </web-experiment-variant>
+      <web-experiment-variant variant-id="Y" weight="98">
+        <h3>Variant Y</h3>
+        <p>Content for Variant Y (Experiment 2).</p>
+      </web-experiment-variant>
+    </web-experiment>
+  </div>
+
+  <div class="container">
+    <h2>Experiment 3: Google Analytics (gtag) Integration</h2>
+    <p>This experiment has the <code>gtag</code> attribute. Check console for <code>gtag('event', 'experience_impression', ...)</code> call. Also, see global event log.</p>
+    <web-experiment experiment-id="demo-exp-3-ga" gtag debug-mode>
+      <web-experiment-variant variant-id="GA-1" weight="50">
+        <h3>Variant GA-1</h3>
+        <p>Content for GA-1.</p>
+      </web-experiment-variant>
+      <web-experiment-variant variant-id="GA-2" weight="50">
+        <h3>Variant GA-2</h3>
+        <p>Content for GA-2.</p>
+      </web-experiment-variant>
+    </web-experiment>
+  </div>
+
+  <div class="container">
+    <h2>Experiment 4: Google Tag Manager (GTM) Integration</h2>
+    <p>This experiment has the <code>gtm</code> attribute. Check console for <code>dataLayer.push(...)</code> call. Also, see global event log.</p>
+    <p>Simulate dataLayer: <code>window.dataLayer = window.dataLayer || [];</code></p>
+    <web-experiment experiment-id="demo-exp-4-gtm" gtm debug-mode>
+      <web-experiment-variant variant-id="GTM-A" weight="1">
+        <h3>Variant GTM-A</h3>
+        <p>Content for GTM-A.</p>
+      </web-experiment-variant>
+    </web-experiment>
+  </div>
+
+  <div class="container">
+    <h2>Experiment 5: No Valid Variants for Random Selection</h2>
+    <p>All variants have <code>weight="0"</code>. No variant should be chosen or displayed unless one is pre-selected or found in storage. A warning should appear in the console.</p>
+    <web-experiment experiment-id="demo-exp-5-no-choice" debug-mode>
+      <web-experiment-variant variant-id="Z1" weight="0">
+        <h3>Variant Z1 (Zero Weight)</h3>
+      </web-experiment-variant>
+      <web-experiment-variant variant-id="Z2" weight="0">
+        <h3>Variant Z2 (Zero Weight)</h3>
+      </web-experiment-variant>
+    </web-experiment>
+  </div>
+
+  <div class="container">
+    <h2>Experiment 6: Only one variant</h2>
+    <p>If only one variant exists with a positive weight, it should always be chosen (if no pre-selection or stored choice).</p>
+    <web-experiment experiment-id="demo-exp-6-single" debug-mode>
+      <web-experiment-variant variant-id="SingleOnly" weight="100">
+        <h3>The Only Choice</h3>
+        <p>This is the only variant that can be chosen.</p>
+      </web-experiment-variant>
+    </web-experiment>
+  </div>
+
+  <script>
+    // Global event listener for all experiments
+    const globalLog = document.getElementById('globalEventLog');
+    document.body.addEventListener('web-experiment:variant-assigned', function(e) {
+      console.log('Global Event Listener:', e.detail);
+      const logEntry = document.createElement('div');
+      logEntry.textContent = \`Experiment: \${e.detail.experimentId}, Variant: \${e.detail.variantId}, Trigger: \${e.detail.trigger}\`;
+      globalLog.appendChild(logEntry);
+      // Scroll to bottom
+      globalLog.scrollTop = globalLog.scrollHeight;
+    });
+
+    // Simulate GTM dataLayer if not present
+    window.dataLayer = window.dataLayer || [];
+    // Simulate gtag if not present (to avoid errors if GA isn't actually on the page)
+    window.gtag = window.gtag || function() { console.log('Simulated gtag call:', ...arguments); };
+
+    // Example of interacting with an experiment post-initialization
+    setTimeout(() => {
+      const exp1 = document.querySelector('web-experiment[experiment-id="demo-exp-1"]');
+      if (exp1) {
+        console.log('Experiment 1 assigned variant (after 1s delay):', exp1.assignedVariant);
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>

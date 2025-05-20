@@ -5,7 +5,8 @@
   "module": "main.js",
   "type": "module",
   "scripts": {
-    "demo": "wds --port $PORT"
+    "demo": "wds --port $PORT",
+    "test": "web-test-runner \"lib/**/*.test.js\" --node-resolve"
   },
   "author": "Dropbear Software",
   "license": "MIT",
@@ -25,6 +26,8 @@
     "url": "git+https://github.com/dropbear-software/web-experiments.git"
   },
   "devDependencies": {
-    "@web/dev-server": "^0.4.6"
+    "@web/dev-server": "^0.4.6",
+    "@web/test-runner": "^0.20.1",
+    "chai": "^5.2.0"
   }
 }
